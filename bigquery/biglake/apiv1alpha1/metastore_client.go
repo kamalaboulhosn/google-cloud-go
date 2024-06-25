@@ -68,7 +68,9 @@ type MetastoreCallOptions struct {
 func defaultMetastoreGRPCClientOptions() []option.ClientOption {
 	return []option.ClientOption{
 		internaloption.WithDefaultEndpoint("biglake.googleapis.com:443"),
+		internaloption.WithDefaultEndpointTemplate("biglake.UNIVERSE_DOMAIN:443"),
 		internaloption.WithDefaultMTLSEndpoint("biglake.mtls.googleapis.com:443"),
+		internaloption.WithDefaultUniverseDomain("googleapis.com"),
 		internaloption.WithDefaultAudience("https://biglake.googleapis.com/"),
 		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
 		internaloption.EnableJwtWithScope(),
@@ -807,7 +809,9 @@ func (c *metastoreGRPCClient) Connection() *grpc.ClientConn {
 func (c *metastoreGRPCClient) setGoogleClientInfo(keyval ...string) {
 	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
 	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "grpc", grpc.Version)
-	c.xGoogHeaders = []string{"x-goog-api-client", gax.XGoogHeader(kv...)}
+	c.xGoogHeaders = []string{
+		"x-goog-api-client", gax.XGoogHeader(kv...),
+	}
 }
 
 // Close closes the connection to the API service. The user should invoke this when
@@ -868,7 +872,9 @@ func NewMetastoreRESTClient(ctx context.Context, opts ...option.ClientOption) (*
 func defaultMetastoreRESTClientOptions() []option.ClientOption {
 	return []option.ClientOption{
 		internaloption.WithDefaultEndpoint("https://biglake.googleapis.com"),
+		internaloption.WithDefaultEndpointTemplate("https://biglake.UNIVERSE_DOMAIN"),
 		internaloption.WithDefaultMTLSEndpoint("https://biglake.mtls.googleapis.com"),
+		internaloption.WithDefaultUniverseDomain("googleapis.com"),
 		internaloption.WithDefaultAudience("https://biglake.googleapis.com/"),
 		internaloption.WithDefaultScopes(DefaultAuthScopes()...),
 	}
@@ -880,7 +886,9 @@ func defaultMetastoreRESTClientOptions() []option.ClientOption {
 func (c *metastoreRESTClient) setGoogleClientInfo(keyval ...string) {
 	kv := append([]string{"gl-go", gax.GoVersion}, keyval...)
 	kv = append(kv, "gapic", getVersionClient(), "gax", gax.Version, "rest", "UNKNOWN")
-	c.xGoogHeaders = []string{"x-goog-api-client", gax.XGoogHeader(kv...)}
+	c.xGoogHeaders = []string{
+		"x-goog-api-client", gax.XGoogHeader(kv...),
+	}
 }
 
 // Close closes the connection to the API service. The user should invoke this when
